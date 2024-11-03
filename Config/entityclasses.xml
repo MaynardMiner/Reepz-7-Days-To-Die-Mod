@@ -1,0 +1,361 @@
+<configs>
+
+	<append xpath="/entity_classes">
+
+		<entity_class name="ReepzBot" extends="zombieTemplateMale">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="SizeScale" value="1.08" />
+			<property name="Tags" value="entity,zombie,spider" />
+			<property name="Prefab" value="ZLong" />
+			<property name="Mesh" value="#@modfolder(Reepz_Mod):Resources/Zoan.unity3d?zoan" />
+			<property name="RootMotion" value="true" />
+			<property name="HasDeathAnim" value="true" />
+			<property name="ModelType" value="Standard" />
+			<property name="WalkType" value="22" />
+			<property name="Mass" value="150" />
+			<property name="LookAtAngle" value="0" />
+
+			<property name="SoundRandom" value="spiderroam" />
+			<property name="SoundAlert" value="spideralert" />
+			<property name="SoundAttack" value="spiderattack" />
+			<property name="SoundDeath" value="spiderdeath" />
+			<property name="SoundHurt" value="spiderpain" />
+			<property name="SoundSense" value="spidersense" />
+
+			<property name="DismemberMultiplierHead" value="0" />
+			<property name="DismemberMultiplierArms" value="0" />
+			<property name="DismemberMultiplierLegs" value="0" />
+			<property name="LegCrawlerThreshold" value="0" />
+			<property name="LegCrippleThreshold" value="0" />
+			<property name="KnockdownProneDamageThreshold" value="0" />
+			<property name="KnockdownKneelDamageThreshold" value="0" />
+
+			<property name="AINoiseSeekDist" value="3" />
+			<property name="AIPathCostScale" value=".6, 1" />
+			<property name="AITask"
+				value="
+			Leap|
+			BreakBlock|
+			DestroyArea|
+			Territorial|
+			ApproachDistraction|
+			ApproachAndAttackTarget class=EntityPlayer,0,EntityBandit,0,EntityEnemyAnimal|
+			ApproachSpot|
+			Look|
+			Wander|
+			" />
+
+			<!-- Gameplay ReepzBot -->
+			<property name="MoveSpeed" value="0.08" />
+			<property name="MoveSpeedAggro" value="0.3, 1.35" /> <!-- slim, regular -->
+			<property name="MoveSpeedPanic" value="1.2" />
+			<property name="SwimSpeed" value="1.3" />
+			<property name="SwimStrokeRate" value="1.5,1.7" />
+			<property name="CanClimbVertical" value="true" />
+			<property name="JumpMaxDistance" value="7, 9" />
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="150" />
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzBotFeral" extends="ReepzBot">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,feral,spider" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Zoan_Feral.unity3d?zoan_feral" />
+			<!-- Gameplay Reepz Bot Feral -->
+			<property name="DismemberMultiplierHead" value=".7" />
+			<property name="DismemberMultiplierArms" value=".7" />
+			<property name="DismemberMultiplierLegs" value=".7" /><!-- Feral -->
+			<property name="PainResistPerHit" value=".7" /><!-- Feral -->
+			<property name="MoveSpeedAggro" value="0.6, 1.45" /> <!-- slim, feral -->
+			<property name="JumpMaxDistance" value="11, 13" />
+			<property name="HandItem" value="meleeHandZombie02Feral" />
+			<property name="ExperienceGain" value="750" /><!-- XP grunt feral -->
+			<property name="LootDropProb" value=".03" /> <!-- Feral -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="500" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzBotRadiated" extends="ReepzBot">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,feral,radiated,spider" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Zoan_Radiated.unity3d?zoan_radiated" />
+			<!--<property
+			name="ParticleOnSpawn" value="@:ParticleEffects/RadiatedParticlesOnMesh.prefab"
+			param1="SetShapeToMesh0"/>-->
+
+			<!-- Gameplay Reepz Bot Radiated -->
+			<property name="DismemberMultiplierHead" value=".4" />
+			<property name="DismemberMultiplierArms" value=".4" />
+			<property name="DismemberMultiplierLegs" value=".4" /><!-- Radiated -->
+			<property name="PainResistPerHit" value=".9" /><!-- Radiated -->
+			<property name="ExperienceGain" value="1200" /><!-- XP grunt radiated -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="1000" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+				<triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" target="self"
+					cvar="RadiatedRegenAmount" operation="set" value="5" />
+				<triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" target="self"
+					buff="buffRadiatedRegen" />
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzHorns" extends="zombieTemplateMale">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker" />
+			<property name="Mesh" value="#@modfolder(Reepz_Mod):Resources/Horns.unity3d?horns" />
+
+			<property name="SoundRandom" value="hulkroam" />
+			<property name="SoundAlert" value="hulkalert" />
+			<property name="SoundAttack" value="hulkattack" />
+			<property name="SoundHurt" value="hulkpain" />
+			<property name="SoundDeath" value="hulkdeath" />
+			<property name="SoundSense" value="hulksense" />
+			<property name="SoundFootstepModifier" value="bear_footstep" />
+			<property name="ModelType" value="Standard" />
+			<property name="WalkType" value="1" />
+			<property name="Mass" value="250" />
+			<property name="PhysicsBody" value="zombieFat" />
+			<property name="RootMotion" value="true" />
+			<property name="HasDeathAnim" value="true" />
+
+			<!-- Gameplay ReepzHorns -->
+			<property name="MoveSpeedAggro" value="0.2, 1.2" />
+			<property name="JumpMaxDistance" value=".8, 1.1" />
+			<property name="HandItem" value="meleeHandZombieCop" />
+			<property name="ExperienceGain" value="750" /><!-- XP strong -->
+			<property name="LootDropEntityClass" value="EntityLootContainerStrong" />
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="450" />
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzHornsFeral" extends="ReepzHorns">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker,feral" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Horns_Feral.unity3d?horns_feral" />
+
+			<!-- Gameplay ReepzHornsFeral -->
+			<property name="DismemberMultiplierHead" value=".7" />
+			<property name="DismemberMultiplierArms" value=".7" />
+			<property name="DismemberMultiplierLegs" value=".7" /><!-- Feral -->
+			<property name="PainResistPerHit" value=".7" /><!-- Feral -->
+			<property name="MoveSpeedAggro" value="0.45, 1.3" /> <!-- strong, feral -->
+			<property name="JumpMaxDistance" value="1.8, 2.5" />
+			<property name="HandItem" value="meleeHandZombieCopFeral" />
+			<property name="ExperienceGain" value="1200" /><!-- XP strong feral -->
+			<property name="LootDropProb" value=".03" /> <!-- Feral -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="950" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzHornsRadiated" extends="ReepzHorns">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker,feral,radiated" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Horns_Radiated.unity3d?horns_radiated" />
+
+			<!-- Gameplay ReepzHornsRadiated -->
+			<property name="DismemberMultiplierHead" value=".4" />
+			<property name="DismemberMultiplierArms" value=".4" />
+			<property name="DismemberMultiplierLegs" value=".4" /><!-- Radiated -->
+			<property name="PainResistPerHit" value=".9" /><!-- Radiated -->
+			<property name="ExperienceGain" value="1500" /><!-- XP strong radiated -->
+			<property name="LootDropEntityClass" value="EntityLootContainerStrong" />
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="1900" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+				<triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" target="self"
+					cvar="RadiatedRegenAmount" operation="set" value="9" />
+				<triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" target="self"
+					buff="buffRadiatedRegen" />
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzCandle" extends="zombieTemplateMale">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="SizeScale" value="1.08" />
+			<property name="Tags" value="entity,zombie,walker" />
+			<property name="Mesh" value="#@modfolder(Reepz_Mod):Resources/Candle.unity3d?candle" />
+
+			<property name="ModelType" value="Standard" />
+			<property name="WalkType" value="1" />
+			<property name="Mass" value="210" />
+			<property name="Weight" value="70" />
+			<property name="PushFactor" value="20" />
+			<property name="RootMotion" value="true" />
+			<property name="HasDeathAnim" value="true" />
+
+			<property name="SoundRandom" value="zombiemale2roam" />
+			<property name="SoundAlert" value="zombiemale2alert" />
+			<property name="SoundSense" value="zombiemale2sense" />
+			<property name="SoundHurt" value="zombiemale2pain" />
+			<property name="SoundDeath" value="zombiemale2death" />
+			<property name="SoundAttack" value="zombiemale2attack" />
+
+			<!-- Gameplay Reepz Candle -->
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="200" />
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzCandleFeral" extends="ReepzCandle">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker,feral" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Candle_Feral.unity3d?candle_feral" />
+
+			<!-- Gameplay Reepz Candle Feral -->
+			<property name="DismemberMultiplierHead" value=".7" />
+			<property name="DismemberMultiplierArms" value=".7" />
+			<property name="DismemberMultiplierLegs" value=".7" /><!-- Feral -->
+			<property name="PainResistPerHit" value=".7" /><!-- Feral -->
+			<property name="MoveSpeedAggro" value=".5, 1.35" />
+			<property name="HandItem" value="meleeHandZombieFeral" />
+			<property name="ExperienceGain" value="750" /><!-- XP grunt feral -->
+			<property name="LootDropProb" value=".03" /> <!-- Feral -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="550" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzCandleRadiated" extends="ReepzCandle">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker,feral,radiated" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Candle_Radiated.unity3d?candle_radiated" />
+			<!--<property
+			name="ParticleOnSpawn" value="@:ParticleEffects/RadiatedParticlesOnMesh.prefab"
+			param1="SetShapeToMesh0"/>-->
+
+			<!-- Gameplay Reepz Candle Radiated -->
+			<property name="DismemberMultiplierHead" value=".4" />
+			<property name="DismemberMultiplierArms" value=".4" />
+			<property name="DismemberMultiplierLegs" value=".4" /><!-- Radiated -->
+			<property name="PainResistPerHit" value=".9" /><!-- Radiated -->
+			<property name="ExperienceGain" value="1200" /><!-- XP grunt radiated -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="1100" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+				<triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" target="self"
+					cvar="RadiatedRegenAmount" operation="set" value="8" />
+				<triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" target="self"
+					buff="buffRadiatedRegen" />
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzPepe" extends="zombieTemplateShort">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="SizeScale" value="1.08" />
+			<property name="Tags" value="entity,zombie,walker" />
+			<property name="Mesh" value="#@modfolder(Reepz_Mod):Resources/Spenda.unity3d?spenda" />
+
+			<property name="SoundRandom" value="zombiefemaleroam" />
+			<property name="SoundAlert" value="zombiefemalealert" />
+			<property name="SoundAttack" value="zombiefemaleattack" />
+			<property name="SoundHurt" value="zombiefemalepain" />
+			<property name="SoundDeath" value="zombiefemaledeath" />
+			<property name="SoundSense" value="zombiefemalesense" />
+			<property name="ModelType" value="Standard" />
+			<property name="WalkType" value="3" />
+			<property name="RootMotion" value="true" />
+			<property name="HasDeathAnim" value="true" />
+			<property name="AIPathCostScale" value=".4, .4" />
+			<property name="NavObjectHeadOffset" value="0,-0.15,0" />
+			<property name="DanceType" value="2" />
+
+			<!-- Gameplay zombieArlene -->
+			<property name="MoveSpeedAggro" value="0.3, 1.35" /> <!-- slim, regular -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="150" />
+				<!--
+				<passive_effect name="BuffProcChance" operation="perc_add" value="-1"
+				tags="buffInjuryCrippled01,defend,head" match_all_tags="true"/>
+				<passive_effect name="BuffProcChance" operation="perc_add" value="-1"
+				tags="buffInjuryCrippled01,defend,upperbody" match_all_tags="true"/>
+				<passive_effect name="BuffProcChance" operation="perc_add" value="0"
+				tags="buffInjuryCrippled01,defend,lowerbody" match_all_tags="true"/>
+			-->
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzPepeFeral" extends="ReepzPepe">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker,feral" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Spenda_Feral.unity3d?spenda_feral" />
+
+			<!-- Gameplay Reepz Pepe Feral -->
+			<property name="DismemberMultiplierHead" value=".7" />
+			<property name="DismemberMultiplierArms" value=".7" />
+			<property name="DismemberMultiplierLegs" value=".7" /><!-- Feral -->
+			<property name="PainResistPerHit" value=".7" /><!-- Feral -->
+			<property name="MoveSpeedAggro" value="0.6, 1.45" /> <!-- slim, feral -->
+			<property name="JumpMaxDistance" value="4.6, 5" />
+			<property name="HandItem" value="meleeHandZombieShortFeral" />
+			<property name="ExperienceGain" value="750" /><!-- XP grunt feral -->
+			<property name="LootDropProb" value=".03" /> <!-- Feral -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="500" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+			</effect_group>
+		</entity_class>
+
+		<entity_class name="ReepzPepeRadiated" extends="ReepzPepe">
+			<property name="UserSpawnType" value="Menu" />
+			<property name="Tags" value="entity,zombie,walker,feral,radiated" />
+			<property name="Mesh"
+				value="#@modfolder(Reepz_Mod):Resources/Spenda_Radiated.unity3d?spenda_radiated" />
+			<!-- Gameplay Reepz Pepe Radiated -->
+			<property name="DismemberMultiplierHead" value=".4" />
+			<property name="DismemberMultiplierArms" value=".4" />
+			<property name="DismemberMultiplierLegs" value=".4" /><!-- Radiated -->
+			<property name="PainResistPerHit" value=".9" /><!-- Radiated -->
+			<property name="ExperienceGain" value="1200" /><!-- XP grunt radiated -->
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="1000" />
+				<!--<passive_effect
+				name="EntityDamage" operation="perc_add" value="0"/>--> <!-- Feral
+				damage -->
+				<triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" target="self"
+					cvar="RadiatedRegenAmount" operation="set" value="4" />
+				<triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" target="self"
+					buff="buffRadiatedRegen" />
+			</effect_group>
+		</entity_class>
+
+	</append>
+
+</configs>
